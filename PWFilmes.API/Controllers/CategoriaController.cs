@@ -18,9 +18,12 @@ namespace PWFilmes.API.Controllers
             categorias.Add(new Categoria { Codigo = 1, Descricao = "Terror", Cor = "Vermelho" });
             categorias.Add(new Categoria { Codigo = 2, Descricao = "Suspense", Cor = "Azul" });
 
+
+
             return Ok(categorias);
         }
-        [HttpGet("obter/{codigo")]
+
+        [HttpGet("obter/{codigo}")]
         public IActionResult Obter(int codigo)
         {
             List<Categoria> categorias = new List<Categoria>();
@@ -29,6 +32,7 @@ namespace PWFilmes.API.Controllers
 
             Categoria cat = categorias.FirstOrDefault(p => p.Codigo == codigo);
 
+            
             return Ok(cat);
         }
     }
