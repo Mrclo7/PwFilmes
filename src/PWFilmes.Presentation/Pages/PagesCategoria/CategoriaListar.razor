@@ -1,5 +1,7 @@
 ﻿@page "/categoria/listar"
+@inject HttpClient Http
 
+@using System.Text.Json
 @using PWFilmes.Domain
 
 <h3>Categorias</h3>
@@ -27,18 +29,17 @@
 @code {
     List<Categoria> categorias = new List<Categoria>();
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        categorias.Add(new Categoria{ Codigo = 1, Descricao = "Suspense", Cor = "Vermelha" });
-        categorias.Add(new Categoria { Codigo = 2, Descricao = "Romance", Cor = "Azul" });
-        categorias.Add(new Categoria { Codigo = 3, Descricao = "Terror", Cor = "Roxo" });
-        categorias.Add(new Categoria { Codigo = 4, Descricao = "Comédia", Cor = "Amarelo" });
-        categorias.Add(new Categoria { Codigo = 5, Descricao = "Ação", Cor = "Preto" });
-        categorias.Add(new Categoria { Codigo = 6, Descricao = "Drama", Cor = "Rosa" });
+        var response =
+            await Http.GetAsync("Categoria/listar");
 
+        var content =
+           await response.Content.ReadAsByteArrayAsync();
 
+        categorias = JsonSerializer.Deserialize<List<Categoria>>(content);
 
-        base.OnInitialized();
+        base.OnInitializedAsync();
     }
 
 }
